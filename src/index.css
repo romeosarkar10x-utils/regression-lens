@@ -1,3 +1,5 @@
+@import url("https://fonts.googleapis.com/css2?family=Geom:ital,wght@0,300..900;1,300..900");
+
 :root {
     font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
     line-height: 1.5;
@@ -62,6 +64,7 @@ body {
     place-items: center;
     min-width: 320px;
     min-height: 100vh;
+    font-family: "Geom";
 }
 
 h1 {
@@ -102,7 +105,6 @@ button:focus-visible {
 }
 
 @import "tailwindcss";
-
 @import "tw-animate-css";
 
 @custom-variant dark (&:is(.dark *));
@@ -180,10 +182,10 @@ button:focus-visible {
 }
 
 @layer base {
-  * {
-    @apply border-border outline-ring/50;
+    * {
+        @apply border-border outline-ring/50;
     }
-  body {
-    @apply bg-background text-foreground;
+    body {
+        @apply bg-background text-foreground;
     }
 }

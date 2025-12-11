@@ -11,6 +11,14 @@ export default defineConfig({
             "@": path.resolve(__dirname, "./src"),
         },
     },
+    root: "./src",
+    /*
+    "css": {
+        "preprocessorOptions": {
+            "sass"
+        }
+    }
+        */
 });
 
-console.log(__dirname);
+// console.log(__dirname);

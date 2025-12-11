@@ -1,0 +1,29 @@
+.component_header {
+    // margin: 1em 1em;
+    height: 4rem;
+    position: fixed;
+    top: 0;
+    z-index: 50;
+    width: 100%;
+    border-bottom-width: 1px;
+    border-bottom-style: solid;
+    border-bottom-color: hsl(var(--border));
+    background-color: hsl(var(--background) / 0.95);
+    backdrop-filter: blur(8px);
+
+    .logo {
+        width: 4rem;
+        height: 4rem;
+    }
+
+    h1 {
+        font-size: 2rem;
+        text-align: left;
+    }
+}
+
+@supports (backdrop-filter: blur(8px)) {
+    .your-element {
+        background-color: hsl(var(--background) / 0.6);
+    }
+}
