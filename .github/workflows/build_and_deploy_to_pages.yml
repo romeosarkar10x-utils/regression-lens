@@ -32,7 +32,7 @@ jobs:
             pages: write
             id-token: write
         environment:
-            name: github-pages
+            name: production
             url: ${{ steps.deploy_pages.outputs.page_url }}
         steps:
             - uses: actions/deploy-pages@v4
