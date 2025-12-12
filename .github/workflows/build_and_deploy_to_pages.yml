@@ -12,7 +12,11 @@ jobs:
             - uses: oven-sh/setup-bun@v2
               name: Setup bun
 
+            - run: bun install
+              name: Install dependencies
+
             - run: bun run build
+              name: Build project
 
             - uses: actions/upload-artifact@v5
               name: Upload artifact
