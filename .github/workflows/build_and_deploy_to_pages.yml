@@ -18,11 +18,19 @@ jobs:
             - run: bun run build
               name: Build project
 
-            - uses: actions/upload-artifact@v5
-              name: Upload artifact
+            #             - uses: actions/upload-artifact@v5
+            #               name: Upload artifact
+            #               with:
+            #                   path: dist
+            #                   name: github-pages
+
+            - uses: actions/upload-pages-artifact@v4
+              id: upload_pages_artifact
               with:
                   path: dist
-                  name: github-pages
+
+            - run: "echo Artifact ID: ${{ steps.upload_pages_artifact.outputs.artifact_id }}"
+              name: Echo artifact-id
 
     deploy-to-pages:
         runs-on: [ubuntu-latest]
@@ -32,7 +40,7 @@ jobs:
             pages: write
             id-token: write
         environment:
-            name: production
+            name: github-pages
             url: ${{ steps.deploy_pages.outputs.page_url }}
         steps:
             - uses: actions/deploy-pages@v4
