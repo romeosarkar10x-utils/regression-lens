@@ -8,10 +8,10 @@ export default defineConfig({
     plugins: [react(), tailwindcss()],
     resolve: {
         alias: {
-            "@": path.resolve(__dirname, "./src"),
+            "@": path.resolve(__dirname, "src"),
         },
     },
-    root: "./src",
+    root: "src",
     /*
     "css": {
         "preprocessorOptions": {
@@ -19,6 +19,15 @@ export default defineConfig({
         }
     }
         */
+    /*
+    build: {
+        rollupOptions: {
+            input: {
+                index: "src/index.html",
+            },
+        },
+    },
+    */
 });
 
 // console.log(__dirname);

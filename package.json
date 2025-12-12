@@ -6,17 +6,19 @@
     "type": "module",
     "repo": {
         "type": "git",
-        "url": "http://github.com/romeosarkar10x-utils/regression-lens"
+        "url": "https://github.com/romeosarkar10x-utils/regression-lens"
     },
     "scripts": {
         "dev": "vite",
-        "build": "tsc -b && vite build",
+        "build": "vite build",
+        "typecheck": "tsc -b",
         "format": "prettier --write \"**/*.{mjs,mts,tsx,json,css,scss}\"",
         "lint": "eslint .",
         "preview": "vite preview",
         "format:check": "prettier --check \"**/*.{mjs,mts,tsx,json,css,scss}\""
     },
     "dependencies": {
+        "@radix-ui/react-select": "^2.2.6",
         "@radix-ui/react-slot": "^1.2.4",
         "@tailwindcss/vite": "^4.1.17",
         "class-variance-authority": "^0.7.1",

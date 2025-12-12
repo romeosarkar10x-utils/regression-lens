@@ -11,17 +11,19 @@ export default function Header() {
 }
     */
 
-import { Menu, Moon, Sun, Github } from "lucide-react";
+// import { useState, useEffect } from "react";
+import { Menu, Github } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { useState, useEffect } from "react";
+import ThemeSelect from "./ThemeSelect";
 
 interface HeaderProps {
     onSidebarToggle?: () => void;
 }
 
 export default function Header({ onSidebarToggle }: HeaderProps) {
-    const [isDark, setIsDark] = useState(false);
+    // const [isDark, setIsDark] = useState(false);
 
+    /*
     useEffect(() => {
         (async function () {
             const isDarkMode =
@@ -30,15 +32,7 @@ export default function Header({ onSidebarToggle }: HeaderProps) {
         })();
     }, []);
 
-    const toggleDarkMode = () => {
-        const newDarkMode = !isDark;
-        setIsDark(newDarkMode);
-        if (newDarkMode) {
-            document.documentElement.classList.add("dark");
-        } else {
-            document.documentElement.classList.remove("dark");
-        }
-    };
+    */
 
     return (
         <header className="component_header">
@@ -78,6 +72,15 @@ export default function Header({ onSidebarToggle }: HeaderProps) {
                             <Github className="h-5 w-5" />
                         </a>
                     </Button>
+
+                    <ThemeSelect />
+                </div>
+            </div>
+        </header>
+    );
+}
+
+/*
                     <Button
                         variant="ghost"
                         size="icon"
@@ -91,8 +94,4 @@ export default function Header({ onSidebarToggle }: HeaderProps) {
                             <Moon className="h-5 w-5" />
                         )}
                     </Button>
-                </div>
-            </div>
-        </header>
-    );
-}
+                    */

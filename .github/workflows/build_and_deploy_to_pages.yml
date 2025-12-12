@@ -1,0 +1,34 @@
+name: Build and deploy to 'Github pages'
+on: [push]
+
+jobs:
+    build-and-upload-artifact:
+        runs-on: [ubuntu-latest]
+        name: Build and upload artifact
+        steps:
+            - uses: actions/checkout@v6
+              name: Checkout repository
+
+            - uses: oven-sh/setup-bun@v2
+              name: Setup bun
+
+            - run: bun run build
+
+            - uses: actions/upload-artifact@v5
+              name: Upload artifact
+              with:
+                  path: dist
+                  name: github-pages
+
+    deploy-to-pages:
+        runs-on: [ubuntu-latest]
+        name: Deploy to 'Github pages'
+        needs: build-and-upload-artifact
+        permissions:
+            pages: write
+            id-token: write
+        steps:
+            - uses: actions/deploy-pages@v4
+              id: deploy_pages
+
+            - run: echo ${{ steps.deploy_pages.outputs.page_url }}
