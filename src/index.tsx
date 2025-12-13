@@ -1,16 +1,15 @@
 import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
 
-import "./index.css";
 import { setDefaultTheme } from "./themes/index.tsx";
+import "./index.css";
 
 import App from "./App.tsx";
 
+setDefaultTheme();
 const root = document.getElementById("root");
 
 if (root != null) {
-    setDefaultTheme();
-
     createRoot(root).render(
         <StrictMode>
             <App />

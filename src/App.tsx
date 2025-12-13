@@ -85,7 +85,7 @@ function helloWorld() {
 
                 <hr />
 
-                <p class="footer">
+                <p className="footer">
                     <em>End of test content.</em>
                 </p>
             </div>

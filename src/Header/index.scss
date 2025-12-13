@@ -10,7 +10,6 @@
     border-bottom-color: hsl(var(--border));
     background-color: hsl(var(--background) / 0.95);
     backdrop-filter: blur(8px);
-    @apply bg-white;
 
     .logo {
         width: 4rem;

@@ -5,7 +5,7 @@
 import tailwindAnimatePlugin from "tailwindcss-animate";
 
 const config = {
-    content: ["src/**/*.{ts,tsx}", "./index.html"],
+    content: ["src/**/*.{ts,tsx}"],
 
     theme: {
         extend: {},

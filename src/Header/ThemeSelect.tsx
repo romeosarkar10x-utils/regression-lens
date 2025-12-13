@@ -19,7 +19,7 @@ export default function ThemeSelect() {
             }}
         >
             <SelectTrigger className="w-[8em]">
-                <SelectValue placeholder="Theme" />
+                <SelectValue placeholder="Theme" className="text-blue-500" />
             </SelectTrigger>
             <SelectContent>
                 <SelectGroup>
