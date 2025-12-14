@@ -2,12 +2,13 @@ import z from "zod";
 import { sTest } from "./test";
 
 export const sTestSuite = z.object({
-    id: z.string().min(1),
+    id: z.uuidv4(),
+    name: z.optional(z.string()),
     timeUnixMillis: z.number().int().positive(),
     appName: z.string().min(1),
     dockerImageURL: z.object({
         baseline: z.string().min(1),
         underTest: z.string().min(1),
     }),
-    tests: sTest,
+    tests: z.array(sTest),
 });

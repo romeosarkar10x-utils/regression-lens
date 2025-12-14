@@ -1,0 +1,66 @@
+[
+    {
+        "id": "regression-test-001",
+        "timeUnixMillis": 1747010346453,
+        "appName": "uber-item-reactor-stream",
+        "dockerImageURL": {
+            "baseline": "docker.artifacts.walmart.com/uberiqs-services-docker/uber-indigo-siv-stream/us-siv:0.0.442",
+            "underTest": "docker.ci.artifacts.walmart.com/uberiqs-services-docker/uber-item-reactor-stream:0.0.93"
+        },
+        "tests": [
+            {
+                "id": "001_indigo_US_add_update_scenario",
+                "inputKafkaTopic": "uber-indigo-input-topic",
+                "assertions": [
+                    {
+                        "type": "log",
+                        "id": "uber-keys-lookup-1-log-assertion",
+                        "baseline": "UberKeysLookup1 completed successfully",
+                        "underTest": "UberKeysLookup1 completed successfully",
+                        "regex": "UberKeysLookup1.*success"
+                    },
+                    {
+                        "type": "log",
+                        "id": "uber-keys-lookup-2-log-assertion",
+                        "baseline": "UberKeysLookup2 processing completed",
+                        "underTest": "UberKeysLookup2 processing completed",
+                        "regex": "UberKeysLookup2.*completed"
+                    },
+                    {
+                        "type": "kafka",
+                        "id": "kafka-assertion-001",
+                        "baseline": "eventType=UPDATE,messageType=STORE_ITEM_UPDATE,storeId=5185,activeItem=551123045",
+                        "underTest": "eventType=UPDATE,messageType=STORE_ITEM_UPDATE,storeId=5185,activeItem=551123045",
+                        "topic": "uber-indigo-siv-outbound",
+                        "key": "00092100704834"
+                    },
+                    {
+                        "type": "kafka",
+                        "id": "kafka-assertion-002",
+                        "baseline": "itemNumber=551123045,uberSentAt=1763373541995,supplierNbr=16758,uberEventType=ADD",
+                        "underTest": "itemNumber=551123045,uberSentAt=1763373570363,supplierNbr=16758,uberEventType=ADD",
+                        "topic": "uber-siv-supply-item-outbound",
+                        "key": "00092100704835"
+                    },
+                    {
+                        "type": "kafka",
+                        "id": "kafka-assertion-003",
+                        "baseline": "parentId=indigo/storeitem,splitIds=5185,localSplitIds=551123045,status=OK",
+                        "underTest": "parentId=uber-indigo,splitIds=4130,4174,4131,4132,localSplitIds=null,status=OK",
+                        "topic": "uber-siv-incremental",
+                        "key": "00092100704836"
+                    },
+                    {
+                        "type": "cassandra",
+                        "id": "cassandra-assertion-001",
+                        "baseline": "gtin=00092100704834,itemNumber=551123045,validityTypeCode=V-ITEM,status=ADD",
+                        "underTest": "gtin=00092100704834,itemNumber=551123045,validityTypeCode=V-ITEM,status=ADD",
+                        "keyspace": "store_us",
+                        "table": "siv_data",
+                        "column": "item_attributes_blob"
+                    }
+                ]
+            }
+        ]
+    }
+]

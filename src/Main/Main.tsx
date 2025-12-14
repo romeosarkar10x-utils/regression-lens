@@ -43,9 +43,14 @@ export default function Main({ sideBarIsOpen }: { sideBarIsOpen: boolean }) {
     );
 }
 
+import data from "./Report/TestSuite/sampleData0.json" assert { type: "json" };
+import TestSuite from "./Report/TestSuite";
+
 function Demo() {
     return (
         <>
+            <TestSuite testSuite={data[0]} />
+
             {/* Header Section */}
             <header>
                 <h1>HTML5 Test Page</h1>
