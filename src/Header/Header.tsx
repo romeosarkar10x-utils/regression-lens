@@ -64,22 +64,3 @@ export default function Header({ onSidebarToggle }: HeaderProps) {
         </header>
     );
 }
-
-/*
-                    <Button
-                        variant="ghost"
-                        size="icon"
-                        onClick={toggleDarkMode}
-                        className="shrink-0"
-                        aria-label="Toggle dark mode"
-                    >
-                        {isDark ? (
-                            <Sun className="h-5 w-5" />
-                        ) : (
-                            <Moon className="h-5 w-5" />
-                        )}
-                    </Button>
-                    */
-
-// <div className=""></div>
-//</div>
