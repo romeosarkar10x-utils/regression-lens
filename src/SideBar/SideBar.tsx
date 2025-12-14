@@ -31,7 +31,7 @@ export default function Sidebar({ isOpen }: SidebarProps) {
     return (
         <aside
             className={cn(
-                "fixed top-14 left-0 h-[calc(100vh-3.5rem)] w-64 border-r border-border bg-background transition-transform duration-200 ease-in-out",
+                "fixed top-13 left-0 h-[calc(100vh-3.5rem)] w-[16rem] border-r border-border bg-background transition-transform duration-200 ease-in-out",
                 isOpen ? "translate-x-0" : "-translate-x-full",
             )}
         >
