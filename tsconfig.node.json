@@ -22,11 +22,7 @@
         "noFallthroughCasesInSwitch": true,
         "noUncheckedSideEffectImports": true,
 
-        "baseUrl": ".",
-        "paths": {
-            "@/*": ["src/*"],
-            "%/*": ["./*"]
-        }
+        "baseUrl": "."
     },
     "include": ["vite.config.mts", "hooks/*.mts"]
 }

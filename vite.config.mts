@@ -4,7 +4,6 @@ import tailwindcss from "@tailwindcss/vite";
 import { genJSONSchema } from "./plugins/genJSONSchema.mjs";
 import path from "path";
 
-// https://vite.dev/config/
 export default defineConfig({
     plugins: [react(), tailwindcss(), genJSONSchema()],
     resolve: {
@@ -15,22 +14,4 @@ export default defineConfig({
     },
     root: ".",
     base: "./",
-    /*
-    "css": {
-        "preprocessorOptions": {
-            "sass"
-        }
-    }
-        */
-    /*
-    build: {
-        rollupOptions: {
-            input: {
-                index: "src/index.html",
-            },
-        },
-    },
-    */
 });
-
-// console.log(__dirname);
