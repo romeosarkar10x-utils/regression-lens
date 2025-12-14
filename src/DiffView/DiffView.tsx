@@ -1,5 +1,3 @@
-"use client";
-
 import { useMemo } from "react";
 import { diffLines as computeDiff } from "diff";
 import { Card } from "@/components/ui/card";
@@ -22,7 +20,7 @@ interface DiffRow {
     };
 }
 
-export function DiffViewer({ text0, text1 }: DiffViewerProps) {
+export default function DiffView({ text0, text1 }: DiffViewerProps) {
     const rows: DiffRow[] = useMemo(() => {
         const diff = computeDiff(text0, text1);
         const result: DiffRow[] = [];
@@ -85,20 +83,20 @@ export function DiffViewer({ text0, text1 }: DiffViewerProps) {
             <div className="flex border-b border-border">
                 {/* Left side - Text1 */}
                 <div className="flex-1 border-r border-border">
-                    <div className="bg-muted/50 px-4 py-3 border-b border-border font-semibold text-sm">
+                    <div className="border-b border-border bg-muted/50 px-4 py-3 text-sm font-semibold">
                         Original
                     </div>
-                    <div className="font-mono text-sm overflow-x-auto">
+                    <div className="overflow-x-auto font-mono text-sm">
                         {rows.map((row, idx) => (
                             <div
                                 key={`left-${idx}`}
                                 className="flex min-h-6 hover:bg-muted/30"
                             >
-                                <div className="w-12 flex-shrink-0 bg-muted/30 text-muted-foreground px-2 py-1 text-right text-xs border-r border-border select-none">
+                                <div className="w-12 flex-shrink-0 border-r border-border bg-muted/30 px-2 py-1 text-right text-xs text-muted-foreground select-none">
                                     {row.left.lineNum || ""}
                                 </div>
                                 <div
-                                    className={`flex-1 px-4 py-1 whitespace-pre-wrap break-words ${
+                                    className={`flex-1 px-4 py-1 break-words whitespace-pre-wrap ${
                                         row.left.type === "removed"
                                             ? "bg-red-500/20"
                                             : ""
@@ -113,20 +111,20 @@ export function DiffViewer({ text0, text1 }: DiffViewerProps) {
 
                 {/* Right side - Text2 */}
                 <div className="flex-1">
-                    <div className="bg-muted/50 px-4 py-3 border-b border-border font-semibold text-sm">
+                    <div className="border-b border-border bg-muted/50 px-4 py-3 text-sm font-semibold">
                         Modified
                     </div>
-                    <div className="font-mono text-sm overflow-x-auto">
+                    <div className="overflow-x-auto font-mono text-sm">
                         {rows.map((row, idx) => (
                             <div
                                 key={`right-${idx}`}
                                 className="flex min-h-6 hover:bg-muted/30"
                             >
-                                <div className="w-12 flex-shrink-0 bg-muted/30 text-muted-foreground px-2 py-1 text-right text-xs border-r border-border select-none">
+                                <div className="w-12 flex-shrink-0 border-r border-border bg-muted/30 px-2 py-1 text-right text-xs text-muted-foreground select-none">
                                     {row.right.lineNum || ""}
                                 </div>
                                 <div
-                                    className={`flex-1 px-4 py-1 whitespace-pre-wrap break-words ${
+                                    className={`flex-1 px-4 py-1 break-words whitespace-pre-wrap ${
                                         row.right.type === "added"
                                             ? "bg-green-500/20"
                                             : ""
