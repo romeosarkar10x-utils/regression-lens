@@ -15,7 +15,7 @@ export function genJSONSchema() {
             this.emitFile({
                 fileName: "schema.json",
                 type: "asset",
-                source: JSON.stringify(z.toJSONSchema(sTestSuite), null, 4),
+                source: JSON.stringify(z.toJSONSchema(sTestSuite)),
             });
         },
     };

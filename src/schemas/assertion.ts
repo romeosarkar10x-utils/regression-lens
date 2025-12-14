@@ -2,34 +2,44 @@ import z from "zod";
 
 const sBase = z.object({
     id: z.string(),
-    baseline: z.string(),
-    underTest: z.string(),
+    value: z.string(),
 });
 
 const sCassandra = sBase.extend({
-    type: z.literal("cassandra"),
     keyspace: z.string().min(1),
     table: z.string().min(1),
     column: z.string().min(1),
 });
 
 const sKafka = sBase.extend({
-    type: z.literal("kafka"),
     topic: z.string(),
     key: z.string(),
-    value: z.string(),
 });
 
 const sLog = sBase.extend({
-    type: z.literal("log"),
     regex: z.string(),
 });
 
-export const sAssertion = z.discriminatedUnion("type", [
-    sCassandra,
-    sKafka,
-    sLog,
-]);
+const sCassandraAssertionResult = z.object({
+    type: z.literal("cassandra"),
+    baseline: sCassandra,
+    underTest: sCassandra,
+});
 
-// const jsonschema = z.tojsonschema(sassertion);
-// console.log(json.stringify(jsonschema, null, 4));
+const sKafkaAssertionResult = z.object({
+    type: z.literal("kafka"),
+    baseline: sKafka,
+    underTest: sKafka,
+});
+
+const sLogAssertionResult = z.object({
+    type: z.literal("log"),
+    baseline: sLog,
+    underTest: sLog,
+});
+
+export const sAssertionResult = z.discriminatedUnion("type", [
+    sCassandraAssertionResult,
+    sKafkaAssertionResult,
+    sLogAssertionResult,
+]);
