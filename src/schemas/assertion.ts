@@ -16,6 +16,8 @@ const sCassandra = sBase.extend({
 const sKafka = sBase.extend({
     type: z.literal("kafka"),
     topic: z.string(),
+    key: z.string(),
+    value: z.string(),
 });
 
 const sLog = sBase.extend({
@@ -29,5 +31,5 @@ export const sAssertion = z.discriminatedUnion("type", [
     sLog,
 ]);
 
-// const jsonSchema = z.toJSONSchema(sAssertion);
-// console.log(JSON.stringify(jsonSchema, null, 4));
+// const jsonschema = z.tojsonschema(sassertion);
+// console.log(json.stringify(jsonschema, null, 4));
