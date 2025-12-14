@@ -1,8 +1,8 @@
 import z from "zod";
-import { sAssertionResult } from "./assertion";
+import { sAssertion } from "./assertion";
 
 export const sTest = z.object({
     id: z.string().min(1),
     inputKafkaTopic: z.string().min(1),
-    assertions: z.array(sAssertionResult),
+    assertions: z.array(sAssertion),
 });
