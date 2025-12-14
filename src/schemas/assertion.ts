@@ -7,17 +7,20 @@ const sBase = z.object({
 });
 
 const sCassandra = sBase.extend({
+    type: z.literal("cassandra"),
     keyspace: z.string().min(1),
     table: z.string().min(1),
     column: z.string().min(1),
 });
 
 const sKafka = sBase.extend({
+    type: z.literal("kafka"),
     topic: z.string(),
     key: z.string(),
 });
 
 const sLog = sBase.extend({
+    type: z.literal("log"),
     regex: z.string(),
 });
 
