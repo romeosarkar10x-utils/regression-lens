@@ -6,3 +6,5 @@ export const sTest = z.object({
     inputKafkaTopic: z.string().min(1),
     assertions: z.array(sAssertion),
 });
+
+export type tTest = z.infer<typeof sTest>;

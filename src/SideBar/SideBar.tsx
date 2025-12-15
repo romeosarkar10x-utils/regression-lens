@@ -1,5 +1,3 @@
-import "./index.scss";
-
 import { FileText, BookOpen, Sparkles, Users, HelpCircle } from "lucide-react";
 import { cn } from "@/lib/utils";
 

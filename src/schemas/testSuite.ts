@@ -12,3 +12,5 @@ export const sTestSuite = z.object({
     }),
     tests: z.array(sTest),
 });
+
+export type tTestSuite = z.infer<typeof sTestSuite>;

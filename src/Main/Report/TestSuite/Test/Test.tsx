@@ -1,60 +1,45 @@
-import z from "zod";
 import { CheckCircle2, XCircle } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import Assertion from "./Assertion";
-import type { sTest } from "@/schemas/test";
-
-// import type { Test } from "../test-report-dashboard";
-
-/*
-interface TestWithStats {
-    test: Test;
-    passed: number;
-    total: number;
-    isPassing: boolean;
-}
-
-interface TestCardProps {
-    testWithStats: TestWithStats;
-    testIndex: number;
-    isExpanded: boolean;
-    onToggle: () => void;
-}
-    */
-
-type tTest = z.infer<typeof sTest>;
+import type { tTestWithStats } from "@/lib/stats";
+import { useState } from "react";
 
 export default function Test({
-    test,
+    testWithStats,
     // testWithStats,
     // testIndex,
     // isExpanded,
     // onToggle,
 }: {
-    test: tTest;
+    testWithStats: tTestWithStats;
 }) {
     // const { test, passed, total, isPassing } = testWithStats;
-    const isPassing: boolean = true;
-    const passed = "passed";
-    const total = "total";
-    const testIndex = "testIndex";
+    // const isPassing: boolean = true;
+    // const passed = "passed";
+    // const total = "total";
+    // const testIndex = "testIndex";
     // const isExpanded = false;
-    const isExpanded = true;
+    // const isExpanded = true;
+    const [isExpanded, setIsExpanded] = useState<boolean>(false);
+    const numAssertions = testWithStats.test.assertions.length;
+    const { passed, numSuccessAssertions } = testWithStats;
+    const { inputKafkaTopic } = testWithStats.test;
 
     return (
         <div className="overflow-hidden rounded-lg border border-border bg-card">
             <button
                 onClick={() => {
                     console.log("0j2093 Implement onToggle()");
+                    setIsExpanded((v) => !v);
                 }}
                 className="flex w-full items-center gap-4 px-6 py-4 transition-colors hover:bg-muted/50"
             >
                 <div
                     className={`flex h-10 w-10 items-center justify-center rounded-full ${
-                        isPassing ? "bg-success/10" : "bg-destructive/10"
+                        passed ? "bg-success/10" : "bg-destructive/10"
                     }`}
                 >
-                    {isPassing ? (
+                    {passed ? (
                         <CheckCircle2 className="text-success h-5 w-5" />
                     ) : (
                         <XCircle className="h-5 w-5 text-destructive" />
@@ -62,18 +47,18 @@ export default function Test({
                 </div>
                 <div className="flex-1 text-left">
                     <div className="mb-1 font-semibold text-foreground">
-                        Test {testIndex + 1}
+                        {testWithStats.test.id}
                     </div>
                     <div className="font-mono text-sm text-muted-foreground">
-                        {test.inputKafkaTopic}
+                        {inputKafkaTopic}
                     </div>
                 </div>
                 <div className="flex items-center gap-3">
                     <Badge
-                        variant={isPassing ? "default" : "destructive"}
+                        variant={passed ? "default" : "destructive"}
                         className="font-mono"
                     >
-                        {passed}/{total}
+                        {numSuccessAssertions}/{numAssertions}
                     </Badge>
                     <svg
                         className={`h-5 w-5 text-muted-foreground transition-transform ${isExpanded ? "rotate-180" : ""}`}
@@ -94,13 +79,15 @@ export default function Test({
             {isExpanded && (
                 <div className="border-t border-border bg-muted/20 px-6 py-4">
                     <div className="space-y-3">
-                        {test.assertions.map((assertion, i) => (
-                            <Assertion
-                                key={i}
-                                assertion={assertion}
-                                // index={assertionIndex}
-                            />
-                        ))}
+                        {testWithStats.assertionsWithStats.map(
+                            (assertionWithStats, i) => (
+                                <Assertion
+                                    key={i}
+                                    assertionWithStats={assertionWithStats}
+                                    // index={assertionIndex}
+                                />
+                            ),
+                        )}
                     </div>
                 </div>
             )}

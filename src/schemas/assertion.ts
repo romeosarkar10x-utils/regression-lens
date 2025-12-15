@@ -29,3 +29,8 @@ export const sAssertion = z.discriminatedUnion("type", [
     sKafka,
     sLog,
 ]);
+
+export type tCassandra = z.infer<typeof sCassandra>;
+export type tKafka = z.infer<typeof sKafka>;
+export type tLog = z.infer<typeof sLog>;
+export type tAssertion = z.infer<typeof sAssertion>;

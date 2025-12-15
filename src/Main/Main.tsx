@@ -1,10 +1,15 @@
 // import { text0, text1 } from "./sample";
+import { getTestSuiteWithStats } from "@/lib/stats";
 import { cn } from "@/lib/utils";
+import { sReport, type tReport } from "@/schemas/report";
+import { useEffect, useState } from "react";
+import { rollupVersion } from "vite";
+import TestSuite from "./Report/TestSuite";
 
-function Header() {
+function Header({ children }: { children: string }) {
     return (
         <header>
-            <h1>Header... </h1>
+            <h1>{children}</h1>
         </header>
     );
 }
@@ -13,10 +18,26 @@ function Footer() {
     return <footer>Footer...</footer>;
 }
 
+// import data from "./Report/TestSuite/sampleData0.json" assert { type: "json" };
 function Article() {
+    const [report, setReport] = useState<tReport>();
+
+    useEffect(() => {
+        (async function () {
+            const res = await fetch("/sampleData0.json");
+            const jsonParsed = await res.json();
+            const report = await sReport.parseAsync(jsonParsed);
+            setReport(report);
+        })();
+    }, []);
+
+    if (report == null) {
+        return <></>;
+    }
+
     return (
         <article>
-            <Demo />
+            <TestSuite testSuiteWithStats={getTestSuiteWithStats(report[0])} />
         </article>
     );
 }
@@ -36,21 +57,22 @@ export default function Main({ sideBarIsOpen }: { sideBarIsOpen: boolean }) {
                 "transition-all duration-200 ease-in-out",
             )}
         >
-            <Header />
+            <Header>Regression Test</Header>
             <Article />
             <Footer />
         </main>
     );
 }
 
-import data from "./Report/TestSuite/sampleData0.json" assert { type: "json" };
+/*
 import TestSuite from "./Report/TestSuite";
+import { getTestSuiteWithStats } from "@/lib/stats";
+import type { tTestSuite } from "@/schemas/testSuite";
+*/
 
 function Demo() {
     return (
         <>
-            <TestSuite testSuite={data[0]} />
-
             {/* Header Section */}
             <header>
                 <h1>HTML5 Test Page</h1>

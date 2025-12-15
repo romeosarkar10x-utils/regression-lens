@@ -1,10 +1,11 @@
 import z from "zod";
 import { sAssertion } from "@/schemas/assertion";
-import { Database, FileText, MessageSquare } from "lucide-react";
+import { FileText } from "lucide-react";
 import Cassandra from "./Cassandra";
 import Kafka from "./Kafka";
 import Log from "./Log";
 import { Badge } from "@/components/ui/badge";
+import type { tAssertionWithStats } from "@/lib/stats";
 
 type tAssertion = z.infer<typeof sAssertion>;
 type tAssertionType = tAssertion["type"];
@@ -58,14 +59,20 @@ function getComponent(assertion: tAssertion) {
     }
 }
 
-export default function Assertion({ assertion }: { assertion: tAssertion }) {
-    const passed: boolean = true;
-    const { type } = assertion;
+export default function Assertion({
+    assertionWithStats,
+}: {
+    assertionWithStats: tAssertionWithStats;
+}) {
+    // const passed: boolean = true;
+    // const { type } = assertion;
+    const { isMatch } = assertionWithStats;
+    const { type: assertionType } = assertionWithStats.assertion;
 
     return (
         <div
             className={`rounded-lg border ${
-                passed
+                isMatch
                     ? "border-success/30 bg-success/5"
                     : "border-destructive/30 bg-destructive/5"
             }`}
@@ -73,27 +80,27 @@ export default function Assertion({ assertion }: { assertion: tAssertion }) {
             <div className="flex items-center justify-between border-b border-border/50 px-4 py-3">
                 <div className="flex items-center gap-3">
                     <div
-                        className={`rounded-md border px-2.5 py-1 text-xs font-medium ${getTypeColor(type)}`}
+                        className={`rounded-md border px-2.5 py-1 text-xs font-medium ${getTypeColor(assertionType)}`}
                     >
                         <div className="flex items-center gap-1.5">
-                            {getIcon(type)}
-                            <span className="uppercase">{type}</span>
+                            {getIcon(assertionType)}
+                            <span className="uppercase">{assertionType}</span>
                         </div>
                     </div>
                     <span className="text-sm text-muted-foreground">
-                        Assertion {"index + 1"}
+                        {assertionWithStats.assertion.id}
                     </span>
                 </div>
                 <Badge
-                    variant={passed ? "default" : "destructive"}
+                    variant={isMatch ? "default" : "destructive"}
                     className="text-xs"
                 >
-                    {passed ? "PASS" : "FAIL"}
+                    {isMatch ? "PASS" : "FAIL"}
                 </Badge>
             </div>
 
             <div className="space-y-4 p-4">
-                {getComponent(assertion)}
+                {getComponent(assertionWithStats.assertion)}
                 <div className="grid gap-3 md:grid-cols-2">
                     <div className="space-y-1.5">
                         <div className="text-xs font-medium tracking-wider text-muted-foreground uppercase">
@@ -101,7 +108,7 @@ export default function Assertion({ assertion }: { assertion: tAssertion }) {
                         </div>
                         <div className="min-h-[60px] rounded border border-border bg-background p-3">
                             <code className="font-mono text-xs break-all">
-                                {assertion.baseline}
+                                {assertionWithStats.assertion.baseline}
                             </code>
                         </div>
                     </div>
@@ -111,13 +118,13 @@ export default function Assertion({ assertion }: { assertion: tAssertion }) {
                         </div>
                         <div
                             className={`min-h-[60px] rounded p-3 ${
-                                passed
+                                isMatch
                                     ? "bg-success/10 border-success/30 border"
                                     : "border border-destructive/30 bg-destructive/10"
                             }`}
                         >
                             <code className="font-mono text-xs break-all">
-                                {assertion.underTest}
+                                {assertionWithStats.assertion.underTest}
                             </code>
                         </div>
                     </div>
@@ -126,3 +133,5 @@ export default function Assertion({ assertion }: { assertion: tAssertion }) {
         </div>
     );
 }
+
+// function Diff() {}
