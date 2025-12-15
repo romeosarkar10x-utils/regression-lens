@@ -1,6 +1,5 @@
 import z from "zod";
 import { sTestSuite } from "@/schemas/testSuite";
-import { GitCompare } from "lucide-react";
 
 type tDockerImageURL = z.infer<typeof sTestSuite>["dockerImageURL"];
 
