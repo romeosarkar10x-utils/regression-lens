@@ -2,7 +2,7 @@ import z from "zod";
 import { sTest } from "./test";
 
 export const sTestSuite = z.object({
-    id: z.uuidv4(),
+    uuid: z.uuidv4(),
     name: z.optional(z.string()),
     timeUnixMillis: z.number().int().positive(),
     appName: z.string().min(1),
