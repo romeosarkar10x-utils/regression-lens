@@ -1,6 +1,6 @@
 [
     {
-        "id": "regression-test-001",
+        "uuid": "regression-test-001",
         "timeUnixMillis": 1747010346453,
         "appName": "uber-item-reactor-stream",
         "dockerImageURL": {
