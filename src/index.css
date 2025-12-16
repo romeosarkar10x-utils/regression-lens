@@ -1,8 +1,17 @@
 @import url("https://fonts.googleapis.com/css2?family=Geom:ital,wght@0,300..900;1,300..900");
 
+/*
 @import url("https://fonts.googleapis.com/css2?family=Fascinate+Inline&display=swap");
 .fascinate-inline-regular {
     font-family: "Fascinate Inline", system-ui;
+    font-weight: 400;
+    font-style: normal;
+}
+    */
+
+@import url("https://fonts.googleapis.com/css2?family=Major+Mono+Display&display=swap");
+.major-mono-display-inline-regular {
+    font-family: "Major Mono Display";
     font-weight: 400;
     font-style: normal;
 }

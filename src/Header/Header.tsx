@@ -39,7 +39,7 @@ export default function Header({ onSidebarToggle }: HeaderProps) {
                     className={cn(
                         "text-xxl",
                         "font-semibold tracking-tight text-foreground",
-                        "fascinate-inline-regular",
+                        "major-mono-display-inline-regular",
                         "uppercase",
                     )}
                 >
