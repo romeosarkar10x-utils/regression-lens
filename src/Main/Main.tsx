@@ -23,7 +23,7 @@ function Article() {
 
     useEffect(() => {
         (async function () {
-            const res = await fetch("/sampleData0.json");
+            const res = await fetch("sampleData0.json");
             const jsonParsed = await res.json();
             const report = await sReport.parseAsync(jsonParsed);
             setReport(report);
