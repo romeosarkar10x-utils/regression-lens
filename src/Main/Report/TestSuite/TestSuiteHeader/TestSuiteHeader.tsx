@@ -44,8 +44,8 @@ export default function TestSuiteHeader({
                         {(numPassedTests / numTests) * 100}% Pass Rate
                     </Badge> */}
                     <PassRateBadge
-                        // percentage={(numPassedTests / numTests) * 100}
-                        percentage={100}
+                        percentage={(numPassedTests / numTests) * 100}
+                        // percentage={}
                     />
                 </div>
 
@@ -56,11 +56,11 @@ export default function TestSuiteHeader({
                         </div>
                         <div className="text-3xl font-bold">{numTests}</div>
                     </div>
-                    <div className="border-success/20 rounded-lg border bg-background p-4">
+                    <div className="rounded-lg border border-success/20 bg-background p-4">
                         <div className="mb-1 text-sm text-muted-foreground">
                             Passed
                         </div>
-                        <div className="text-success text-3xl font-bold">
+                        <div className="text-3xl font-bold text-success">
                             {numPassedTests}
                         </div>
                     </div>
@@ -91,7 +91,7 @@ function PassRateBadge({ percentage }: { percentage: number }) {
             <div
                 className={`relative rounded-2xl border px-6 py-4 backdrop-blur-sm ${
                     percentage === 100
-                        ? "bg-success/10 border-success/30"
+                        ? "border-success/30 bg-success/10"
                         : "border-destructive/30 bg-destructive/10"
                 }`}
             >

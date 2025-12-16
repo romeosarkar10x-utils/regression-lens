@@ -3,7 +3,7 @@ import { sTest } from "./test";
 
 export const sTestSuite = z.object({
     uuid: z.uuidv4(),
-    name: z.optional(z.string()),
+    name: z.string(),
     timeUnixMillis: z.number().int().positive(),
     appName: z.string().min(1),
     dockerImageURL: z.object({

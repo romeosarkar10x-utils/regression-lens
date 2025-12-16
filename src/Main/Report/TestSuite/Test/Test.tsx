@@ -22,7 +22,7 @@ export default function Test({
     // const isExpanded = true;
     const [isExpanded, setIsExpanded] = useState<boolean>(false);
     const numAssertions = testWithStats.test.assertions.length;
-    const { passed, numSuccessAssertions } = testWithStats;
+    const { passed, numPassedAssertions } = testWithStats;
     const { inputKafkaTopic } = testWithStats.test;
 
     return (
@@ -40,7 +40,7 @@ export default function Test({
                     }`}
                 >
                     {passed ? (
-                        <CheckCircle2 className="text-success h-5 w-5" />
+                        <CheckCircle2 className="h-5 w-5 text-success" />
                     ) : (
                         <XCircle className="h-5 w-5 text-destructive" />
                     )}
@@ -58,7 +58,7 @@ export default function Test({
                         variant={passed ? "default" : "destructive"}
                         className="font-mono"
                     >
-                        {numSuccessAssertions}/{numAssertions}
+                        {numPassedAssertions}/{numAssertions}
                     </Badge>
                     <svg
                         className={`h-5 w-5 text-muted-foreground transition-transform ${isExpanded ? "rotate-180" : ""}`}

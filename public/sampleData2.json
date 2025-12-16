@@ -1,0 +1,237 @@
+[
+    {
+        "uuid": "a1b2c3d4-e5f6-4a5b-8c9d-0e1f2a3b4c5d",
+        "name": "SIV Update Flow Validation",
+        "timeUnixMillis": 1747010400000,
+        "appName": "uber-item-reactor-stream",
+        "dockerImageURL": {
+            "baseline": "docker.artifacts.walmart.com/uberiqs/siv:0.0.442",
+            "underTest": "docker.ci.artifacts.walmart.com/uberiqs/reactor:0.0.93"
+        },
+        "tests": [
+            {
+                "id": "test-suite-1-case-001",
+                "inputKafkaTopic": "uber-indigo-input-topic",
+                "assertions": [
+                    {
+                        "type": "log",
+                        "id": "log-verify-startup",
+                        "baseline": "Service initialized in 45ms",
+                        "underTest": "Service initialized in 42ms",
+                        "regex": "Service initialized in \\d+ms"
+                    },
+                    {
+                        "type": "kafka",
+                        "id": "kafka-outbound-sync",
+                        "baseline": "eventType=UPDATE,storeId=5185,status=ACTIVE",
+                        "underTest": "eventType=UPDATE,storeId=5185,status=ACTIVE",
+                        "topic": "uber-indigo-siv-outbound",
+                        "key": "00092100704834"
+                    },
+                    {
+                        "type": "cassandra",
+                        "id": "db-state-check-01",
+                        "baseline": "item_id=5511,state=READY",
+                        "underTest": "item_id=5511,state=READY",
+                        "keyspace": "store_us",
+                        "table": "siv_data",
+                        "column": "item_attributes_blob"
+                    }
+                ]
+            },
+            {
+                "id": "test-suite-1-case-002",
+                "inputKafkaTopic": "uber-indigo-input-topic",
+                "assertions": [
+                    {
+                        "type": "kafka",
+                        "id": "kafka-verify-payload",
+                        "baseline": "payload_hash=xA912,ts=1747010400",
+                        "underTest": "payload_hash=xA912,ts=1747010401",
+                        "topic": "uber-siv-supply-item-outbound",
+                        "key": "999888777666"
+                    },
+                    {
+                        "type": "log",
+                        "id": "log-verify-error-handling",
+                        "baseline": "Error: Connection timeout handled gracefully",
+                        "underTest": "Error: Connection timeout handled gracefully",
+                        "regex": "Error:.*handled gracefully"
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "uuid": "f9876543-2109-4abc-8ef0-1234567890ab",
+        "name": "Inventory Bulk Processing Regression",
+        "timeUnixMillis": 1747010555000,
+        "appName": "inventory-level-processor",
+        "dockerImageURL": {
+            "baseline": "docker.repo.com/inv/processor:1.2.0",
+            "underTest": "docker.repo.com/inv/processor:1.3.0-RC1"
+        },
+        "tests": [
+            {
+                "id": "inv-update-bulk",
+                "inputKafkaTopic": "inventory-updates-bulk",
+                "assertions": [
+                    {
+                        "type": "cassandra",
+                        "id": "cas-row-verify-1",
+                        "baseline": "sku=12345,qty=500",
+                        "underTest": "sku=12345,qty=500",
+                        "keyspace": "inventory_keyspace",
+                        "table": "global_stock",
+                        "column": "quantity"
+                    },
+                    {
+                        "type": "cassandra",
+                        "id": "cas-row-verify-2",
+                        "baseline": "sku=67890,qty=10",
+                        "underTest": "sku=67890,qty=10",
+                        "keyspace": "inventory_keyspace",
+                        "table": "global_stock",
+                        "column": "quantity"
+                    },
+                    {
+                        "type": "kafka",
+                        "id": "kafka-audit-log",
+                        "baseline": "action=BULK_UPDATE,count=2",
+                        "underTest": "action=BULK_UPDATE,count=2",
+                        "topic": "inventory-audit-log",
+                        "key": "batch-id-9912"
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "uuid": "c56a4180-65aa-42ec-a945-5fd21dec0538",
+        "name": "Dynamic Pricing Zone Logic",
+        "timeUnixMillis": 1747010600123,
+        "appName": "pricing-engine-v2",
+        "dockerImageURL": {
+            "baseline": "registry.internal/price-engine:stable",
+            "underTest": "registry.internal/price-engine:feature-dynamic-pricing"
+        },
+        "tests": [
+            {
+                "id": "price-calc-zone-1",
+                "inputKafkaTopic": "price-requests-zone-1",
+                "assertions": [
+                    {
+                        "type": "log",
+                        "id": "log-calc-start",
+                        "baseline": "Calculation started for zone 1",
+                        "underTest": "Calculation started for zone 1",
+                        "regex": "Calculation started.*"
+                    },
+                    {
+                        "type": "kafka",
+                        "id": "kafka-price-published",
+                        "baseline": "item=A1,price=19.99,currency=USD",
+                        "underTest": "item=A1,price=19.99,currency=USD",
+                        "topic": "price-updates",
+                        "key": "A1-USD"
+                    }
+                ]
+            },
+            {
+                "id": "price-calc-zone-2",
+                "inputKafkaTopic": "price-requests-zone-2",
+                "assertions": [
+                    {
+                        "type": "kafka",
+                        "id": "kafka-price-published-z2",
+                        "baseline": "item=B2,price=50.00,currency=EUR",
+                        "underTest": "item=B2,price=50.00,currency=EUR",
+                        "topic": "price-updates",
+                        "key": "B2-EUR"
+                    },
+                    {
+                        "type": "cassandra",
+                        "id": "cas-history-check",
+                        "baseline": "id=B2,prev_price=45.00",
+                        "underTest": "id=B2,prev_price=45.00",
+                        "keyspace": "pricing_history",
+                        "table": "price_changes",
+                        "column": "metadata"
+                    },
+                    {
+                        "type": "log",
+                        "id": "log-perf-check",
+                        "baseline": "Latency: 12ms",
+                        "underTest": "Latency: 15ms",
+                        "regex": "Latency: \\d+ms"
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "uuid": "b2f7a9e1-3d4c-4820-9123-456789abcdef",
+        "name": "Order Fulfillment Happy Path",
+        "timeUnixMillis": 1747010700000,
+        "appName": "order-fulfillment-service",
+        "dockerImageURL": {
+            "baseline": "docker.fulfillment.io/service:v1",
+            "underTest": "docker.fulfillment.io/service:v2"
+        },
+        "tests": [
+            {
+                "id": "order-create-happy-path",
+                "inputKafkaTopic": "order-intake",
+                "assertions": [
+                    {
+                        "type": "kafka",
+                        "id": "kafka-shipping-instruction",
+                        "baseline": "orderId=999,shipTo=US-EAST",
+                        "underTest": "orderId=999,shipTo=US-EAST",
+                        "topic": "shipping-instructions",
+                        "key": "999"
+                    },
+                    {
+                        "type": "kafka",
+                        "id": "kafka-email-trigger",
+                        "baseline": "template=ORDER_CONFIRM,recipient=user@example.com",
+                        "underTest": "template=ORDER_CONFIRM,recipient=user@example.com",
+                        "topic": "email-notifications",
+                        "key": "user@example.com"
+                    },
+                    {
+                        "type": "cassandra",
+                        "id": "cas-order-record",
+                        "baseline": "status=CREATED,total=105.50",
+                        "underTest": "status=CREATED,total=105.50",
+                        "keyspace": "orders_db",
+                        "table": "order_header",
+                        "column": "status_blob"
+                    }
+                ]
+            },
+            {
+                "id": "order-cancel-flow",
+                "inputKafkaTopic": "order-cancellations",
+                "assertions": [
+                    {
+                        "type": "log",
+                        "id": "log-cancel-reason",
+                        "baseline": "Cancellation reason: UserRequest",
+                        "underTest": "Cancellation reason: UserRequest",
+                        "regex": "Cancellation reason:.*"
+                    },
+                    {
+                        "type": "cassandra",
+                        "id": "cas-order-update",
+                        "baseline": "status=CANCELLED",
+                        "underTest": "status=CANCELLED",
+                        "keyspace": "orders_db",
+                        "table": "order_header",
+                        "column": "status_blob"
+                    }
+                ]
+            }
+        ]
+    }
+]

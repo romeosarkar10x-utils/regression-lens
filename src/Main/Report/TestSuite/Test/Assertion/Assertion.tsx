@@ -66,13 +66,13 @@ export default function Assertion({
 }) {
     // const passed: boolean = true;
     // const { type } = assertion;
-    const { isMatch } = assertionWithStats;
+    const { passed } = assertionWithStats;
     const { type: assertionType } = assertionWithStats.assertion;
 
     return (
         <div
             className={`rounded-lg border ${
-                isMatch
+                passed
                     ? "border-success/30 bg-success/5"
                     : "border-destructive/30 bg-destructive/5"
             }`}
@@ -92,10 +92,10 @@ export default function Assertion({
                     </span>
                 </div>
                 <Badge
-                    variant={isMatch ? "default" : "destructive"}
+                    variant={passed ? "default" : "destructive"}
                     className="text-xs"
                 >
-                    {isMatch ? "PASS" : "FAIL"}
+                    {passed ? "PASS" : "FAIL"}
                 </Badge>
             </div>
 
@@ -118,8 +118,8 @@ export default function Assertion({
                         </div>
                         <div
                             className={`min-h-[60px] rounded p-3 ${
-                                isMatch
-                                    ? "bg-success/10 border-success/30 border"
+                                passed
+                                    ? "border border-success/30 bg-success/10"
                                     : "border border-destructive/30 bg-destructive/10"
                             }`}
                         >

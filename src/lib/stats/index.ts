@@ -1,6 +1,36 @@
 import type { tAssertion } from "@/schemas/assertion";
+import type { tReport } from "@/schemas/report";
 import type { tTest } from "@/schemas/test";
 import type { tTestSuite } from "@/schemas/testSuite";
+
+export type tReportWithStats = {
+    report: tReport;
+    numPassedTestSuites: number;
+    numFailedTestSuites: number;
+    testSuitesWithStats: tTestSuiteWithStats[];
+};
+
+export function getReportWithStats(report: tReport): tReportWithStats {
+    const testSuitesWithStats = report.map(getTestSuiteWithStats);
+
+    let numPassedTestSuites = 0;
+    let numFailedTestSuites = 0;
+
+    testSuitesWithStats.forEach((testSuiteWithStats) => {
+        if (testSuiteWithStats.passed) {
+            numPassedTestSuites++;
+        } else {
+            numFailedTestSuites++;
+        }
+    });
+
+    return {
+        report,
+        testSuitesWithStats,
+        numPassedTestSuites,
+        numFailedTestSuites,
+    };
+}
 
 export type tTestSuiteWithStats = {
     testSuite: tTestSuite;
@@ -85,7 +115,7 @@ export function getTestSuiteWithStats(
 
 export type tTestWithStats = {
     test: tTest;
-    numSuccessAssertions: number;
+    numPassedAssertions: number;
     numFailedAssertions: number;
     assertionsWithStats: tAssertionWithStats[];
     passed: boolean;
@@ -93,20 +123,20 @@ export type tTestWithStats = {
 
 function getTestWithStats(test: tTest): tTestWithStats {
     let numFailedAssertions = 0;
-    let numSuccessAssertions = 0;
+    let numPassedAssertions = 0;
 
     const assertionsWithStats = test.assertions.map(getAssertionWithStats);
 
     assertionsWithStats.forEach((assertionWithStats) => {
-        if (assertionWithStats.isMatch) {
-            numSuccessAssertions++;
+        if (assertionWithStats.passed) {
+            numPassedAssertions++;
         } else {
             numFailedAssertions--;
         }
     });
 
     return {
-        numSuccessAssertions,
+        numPassedAssertions,
         numFailedAssertions,
         assertionsWithStats,
         test,
@@ -116,7 +146,7 @@ function getTestWithStats(test: tTest): tTestWithStats {
 
 export type tAssertionWithStats = {
     assertion: tAssertion;
-    isMatch: boolean;
+    passed: boolean;
 };
 
 function getAssertionWithStats(assertion: tAssertion): tAssertionWithStats {
@@ -128,7 +158,7 @@ function getAssertionWithStats(assertion: tAssertion): tAssertionWithStats {
 
     return {
         assertion,
-        isMatch: compare(formattedBaselineVal, formattedUnderTestVal),
+        passed: compare(formattedBaselineVal, formattedUnderTestVal),
     } as const;
 }
 
