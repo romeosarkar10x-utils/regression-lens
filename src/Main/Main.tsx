@@ -3,7 +3,6 @@ import { getTestSuiteWithStats } from "@/lib/stats";
 import { cn } from "@/lib/utils";
 import { sReport, type tReport } from "@/schemas/report";
 import { useEffect, useState } from "react";
-import { rollupVersion } from "vite";
 import TestSuite from "./Report/TestSuite";
 
 function Header({ children }: { children: string }) {
