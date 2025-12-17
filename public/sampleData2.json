@@ -2,7 +2,7 @@
     {
         "uuid": "a1b2c3d4-e5f6-4a5b-8c9d-0e1f2a3b4c5d",
         "name": "SIV Update Flow Validation",
-        "timeUnixMillis": 1747010400000,
+        "time": 1747010400000,
         "appName": "uber-item-reactor-stream",
         "dockerImageURL": {
             "baseline": "docker.artifacts.walmart.com/uberiqs/siv:0.0.442",
@@ -65,7 +65,7 @@
     {
         "uuid": "f9876543-2109-4abc-8ef0-1234567890ab",
         "name": "Inventory Bulk Processing Regression",
-        "timeUnixMillis": 1747010555000,
+        "time": 1747010555000,
         "appName": "inventory-level-processor",
         "dockerImageURL": {
             "baseline": "docker.repo.com/inv/processor:1.2.0",
@@ -109,7 +109,7 @@
     {
         "uuid": "c56a4180-65aa-42ec-a945-5fd21dec0538",
         "name": "Dynamic Pricing Zone Logic",
-        "timeUnixMillis": 1747010600123,
+        "time": 1747010600123,
         "appName": "pricing-engine-v2",
         "dockerImageURL": {
             "baseline": "registry.internal/price-engine:stable",
@@ -172,7 +172,7 @@
     {
         "uuid": "b2f7a9e1-3d4c-4820-9123-456789abcdef",
         "name": "Order Fulfillment Happy Path",
-        "timeUnixMillis": 1747010700000,
+        "time": 1747010700000,
         "appName": "order-fulfillment-service",
         "dockerImageURL": {
             "baseline": "docker.fulfillment.io/service:v1",

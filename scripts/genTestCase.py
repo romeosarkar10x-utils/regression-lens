@@ -80,7 +80,7 @@ def generate_suite(index):
     
     return {
         "uuid": str(uuid.uuid4()),
-        "timeUnixMillis": int(time.time() * 1000) + random.randint(-100000, 100000),
+        "time": int(time.time() * 1000) + random.randint(-100000, 100000),
         "appName": app_name,
         "dockerImageURL": {
             "baseline": f"docker.repo.com/{app_name}:1.0.{random.randint(100,200)}",

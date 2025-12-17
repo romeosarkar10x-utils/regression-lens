@@ -7,7 +7,7 @@ export default function TestSuiteHeader({
 }: {
     testSuiteWithStats: tTestSuiteWithStats;
 }) {
-    const dateTime = new Date(testSuiteWithStats.testSuite.timeUnixMillis);
+    const dateTime = new Date(testSuiteWithStats.testSuite.time);
     const { appName, uuid } = testSuiteWithStats.testSuite;
     const numTests = testSuiteWithStats.testSuite.tests.length;
     const { numPassedTests, numFailedTests } = testSuiteWithStats;
