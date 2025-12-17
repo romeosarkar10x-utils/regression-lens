@@ -26,7 +26,7 @@ export default function Test({
     const { inputKafkaTopic } = testWithStats.test;
 
     return (
-        <div className="overflow-hidden rounded-lg border border-border bg-card">
+        <div className="mb-2 overflow-hidden rounded-lg border border-border bg-card">
             <button
                 onClick={() => {
                     console.log("0j2093 Implement onToggle()");
